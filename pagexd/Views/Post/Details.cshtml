@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using pagexd.Data
+@inject SignInManager<PageUser> SignInManager
+@inject UserManager<PageUser> UserManager
+@model pagexd.ViewModels.PostVM
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.Title</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Txt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Txt)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+
+        <dd class="col-sm-10">
+            <img src="@Url.Content(Model.Photo)" width="600" height="600">
+        </dd>
+    </dl>
+</div>
+<div>
+    <a href='javascript:history.go(-1)'>Go Back to Previous Page</a>
+
+</div>

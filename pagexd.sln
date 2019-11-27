@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29403.142
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pagexd", "pagexd\pagexd.csproj", "{480B56D2-0EE0-45CF-8611-288E246272C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{480B56D2-0EE0-45CF-8611-288E246272C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{480B56D2-0EE0-45CF-8611-288E246272C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{480B56D2-0EE0-45CF-8611-288E246272C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{480B56D2-0EE0-45CF-8611-288E246272C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09D0C192-BB52-4225-9B3D-FAFD04EB880C}
+	EndGlobalSection
+EndGlobal

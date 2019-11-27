@@ -1,0 +1,26 @@
+﻿@model IEnumerable<pagexd.ViewModels.PostVM>
+<div class="container">
+    <div class="row">
+
+        <div class="content-list col-xs-12 col-sm-7 col-md-9 col-lg-9">
+            <h2 class="class01">Elo</h2>
+            <div class="container">
+                <div class="row">
+
+
+                    @foreach (var m in Model)
+                    {
+                        <a href="@Url.Action("Details", "Post", new { id = @m.PostID })">
+                            <div class="product-tile">
+                                <img src="@m.Photo" />
+                                <h5>@m.Title</h5>
+
+                            </div>
+                        </a>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
