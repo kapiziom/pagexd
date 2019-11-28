@@ -2,50 +2,54 @@
 @using pagexd.Data
 @inject SignInManager<PageUser> SignInManager
 @inject UserManager<PageUser> UserManager
-@model pagexd.ViewModels.PostVM
+@model pagexd.ViewModels.PostWithCommentsVM
+
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@Model.Title</h1>
+<h1>@Model.PostVM.Title</h1>
+
+    <a asp-controller="Home" asp-action="Index">Back to main page</a>
+
 @if (User.IsInRole("Administrator"))
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@Model.PostID">Edit as Administrator</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@Model.PostVM.PostID">Edit as Administrator</a>
     </li>
 }
 <div>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.PostVM.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.PostVM.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Txt)
+            @Html.DisplayNameFor(model => model.PostVM.Txt)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Txt)
+            @Html.DisplayFor(model => model.PostVM.Txt)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsAccepted)
+            @Html.DisplayNameFor(model => model.PostVM.IsAccepted)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsAccepted)
+            @Html.DisplayFor(model => model.PostVM.IsAccepted)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
+            @Html.DisplayNameFor(model => model.PostVM.Photo)
         </dt>
 
         <dd class="col-sm-10">
-            <img src="@Url.Content(Model.Photo)" width="600" height="600">
+            <img src="@Url.Content(Model.PostVM.Photo)" width="600" height="600">
         </dd>
     </dl>
 </div>
+<div><partial name="CreateComment" /></div>
 <div>
     <a href='javascript:history.go(-1)'>Go Back to Previous Page</a>
-
 </div>

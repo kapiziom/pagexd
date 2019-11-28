@@ -92,7 +92,6 @@ namespace pagexd.Repositories
 
         public List<PostVM> GetUserContent(string userId)
         {
-
             IEnumerable<Post> posts;
             posts = _context.Posts.Where(m => m.UserID == userId).ToList();
             var model = new List<PostVM>();
@@ -137,6 +136,44 @@ namespace pagexd.Repositories
             _context.Posts.Add(postmodel);
             _context.Photos.Add(photomodel);
             _context.SaveChanges();
+        }
+
+        public void AddComment(CommentVM commentVM, int id)
+        {
+            //var post = _context.Posts.FirstOrDefault(m => m.PostID == id);
+            //commentVM.PostIDref = id/*post.PostID*/;
+            var comment = new Comment()
+            {
+                CommentID = commentVM.CommentID,
+                UserID = commentVM.UserID,
+                Txt = commentVM.Txt,
+                CreationDate = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                EditDate = null,
+                PostIDref = commentVM.PostIDref,
+                //Post = post,
+            };
+            _context.Comments.Add(comment);
+            _context.SaveChanges();
+        }
+        public List<CommentVM> GetCommentsInContent(int postID)
+        {
+            IEnumerable<Comment> comments;
+            comments = _context.Comments.Where(m => m.PostIDref == postID).ToList();
+            var model = new List<CommentVM>();
+            foreach (var m in comments)
+            {
+                var comment = new CommentVM()
+                {
+                    CommentID = m.CommentID,
+                    UserID = m.UserID,
+                    Txt = m.Txt,
+                    CreationDate = m.CreationDate,
+                    EditDate = m.EditDate,
+                    PostIDref = m.PostIDref,
+                };
+                model.Add(comment);
+            }
+            return model;
         }
 
     }
