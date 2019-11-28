@@ -1,2 +1,2 @@
-To do: dodać możliwość dodawania komentarzy.<br/>
+elo<br/>
 NET CORE ASP NET MVC, sql server, entity framework
