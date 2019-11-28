@@ -1,1 +1,1 @@
-To do: edytowanie.
+To do: dodać możliwość dodawania komentarzy.
