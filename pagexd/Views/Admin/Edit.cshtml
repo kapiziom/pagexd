@@ -3,14 +3,18 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using Microsoft.AspNetCore.Identity
+@using pagexd.Data
+@using pagexd.Models
+@inject UserManager<PageUser> UserManager
+<h1>Admin Edit</h1>
 
-<h1>Edit</h1>
 
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form enctype="multipart/form-data" asp-action="edit" method="post" class="mt-3">
+        <form enctype="multipart/form-data" asp-action="Edit" method="post" class="mt-3">
 
 
 
@@ -33,7 +37,6 @@
                 <!>CONTENT ARCHIVIZER<!>:  @Html.CheckBoxFor(m => m.IsArchived)
             </div>
 
-            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

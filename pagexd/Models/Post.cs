@@ -18,7 +18,7 @@ namespace pagexd.Models
         public bool IsAccepted { get; set; }
 
         public bool IsArchived { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
         public ICollection<Comment> Comments { get; set; }
 
         public int PhotoID { get; set; }

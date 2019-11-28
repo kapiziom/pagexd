@@ -17,44 +17,17 @@ namespace pagexd.Repositories
         {
             _context = modelDbContext;
         }
-
+ 
+        public void Edit(PostVM postVM, int id)
+        {
+            var post = _context.Posts.FirstOrDefault(m => m.PostID == id);
+            post.Title = postVM.Title;
+            post.Txt = postVM.Txt;
+            post.IsAccepted = postVM.IsAccepted;
+            post.IsArchived = postVM.IsArchived;
+            _context.SaveChanges();
+        }
         
-        public void Edit(PostVM postVM)
-        {
-            var post = _context.Posts.First(m => m.PostID == postVM.PostID);
-            post = new Post()
-            {
-                PostID = postVM.PostID,
-                Title = postVM.Title,
-                Txt = postVM.Txt,
-                CreationDate = postVM.CreationDate,
-                IsAccepted = postVM.IsAccepted,
-                IsArchived = postVM.IsArchived,
-                UserID = postVM.UserID,
-            };
-            _context.Update(post);
-            _context.SaveChanges();
-        }
-        public void EditPostModel(Post post,string title, string txt, bool isaccepted, bool isarchivized)
-        {
-            var postmodel = new Post()
-            {
-                PostID = post.PostID,
-                Title = title,
-                Txt = txt,
-                UserID = post.UserID,
-                CreationDate = post.CreationDate,
-                IsAccepted = isaccepted,
-                IsArchived = isarchivized,
-            };
-            post = postmodel;
-            _context.SaveChanges();
-        }
-        public Post GetPostModelByID(int id)
-        {
-            var post = _context.Posts.First(m => m.PostID == id);
-            return post;
-        }
         public PostVM GetPostByID(int id)
         {
             var post = _context.Posts.FirstOrDefault(m => m.PostID == id);
@@ -110,6 +83,7 @@ namespace pagexd.Repositories
                 };
                 var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
                 post.Photo = Photo.FirstOrDefault().PathForView;
+                
 
                 model.Add(post);
             }
@@ -147,7 +121,7 @@ namespace pagexd.Repositories
             {
                 Title = postVM.Title,
                 Txt = postVM.Txt,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
                 IsAccepted = postVM.IsAccepted,
                 IsArchived = postVM.IsArchived,
                 UserID = postVM.UserID,
@@ -162,7 +136,6 @@ namespace pagexd.Repositories
             };
             _context.Posts.Add(postmodel);
             _context.Photos.Add(photomodel);
-            
             _context.SaveChanges();
         }
 

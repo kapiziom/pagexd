@@ -20,17 +20,19 @@ namespace pagexd.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IPageRepository _pageRepository;
         private readonly IUserRepository _userRepository;
-        private readonly ModelDbContext _context;
 
-        public PostController(IPageRepository pageRepository, IWebHostEnvironment webHosting, IUserRepository userRepository, ModelDbContext context)
+        public PostController(IPageRepository pageRepository, IWebHostEnvironment webHosting, IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _pageRepository = pageRepository;
             _hostingEnvironment = webHosting;
-            _context = context;
         }
       
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult Error()
         {
             return View();
         }
@@ -47,40 +49,35 @@ namespace pagexd.Controllers
             var checkmodel = _pageRepository.GetPostByID(id);
             if (userId != checkmodel.UserID)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Error");
             }
             var postVM = _pageRepository.GetPostByID(id);
             return View(postVM);
         }
 
         [Authorize]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Posts.FindAsync(id);
-
+            var post = _pageRepository.GetPostByID(id);    
+            
             if (post == null)
             {
                 return NotFound();
-            }
-            
+            }            
             if (userId != post.UserID)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Error");
             }
-
             return View(post);
         }
         [HttpPost]
         public IActionResult Edit(int id, PostVM postVM)
         {
-            //////////do zrobienia
+            if (ModelState.IsValid)
+            {
+                _pageRepository.Edit(postVM, id);
+            }
             return View(postVM);
         }
 

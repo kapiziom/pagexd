@@ -32,6 +32,8 @@ namespace pagexd.Controllers
 
             return View(items);
         }
+        
+
         public IActionResult UsersList()
         {
             var items = _userRepository.GetAllUsers();
@@ -62,14 +64,19 @@ namespace pagexd.Controllers
         public IActionResult Edit(int id)
         {
             var postVM = _pageRepository.GetPostByID(id);
+            if (postVM == null)
+            {
+                return NotFound();
+            }
             return View(postVM);
         }
         [HttpPost]
-        public IActionResult Edit(PostVM postVM)
+        public IActionResult Edit(PostVM postVM, int id)
         {
-            
-            //do zrobienia
-
+            if (ModelState.IsValid)
+            {
+                _pageRepository.Edit(postVM, id);
+            }
             return View(postVM);
         }
 

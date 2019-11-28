@@ -26,6 +26,12 @@ namespace pagexd.Controllers
             return View(items);
         }
 
+        public IActionResult NotAccepted()
+        {
+            var items = _pageRepository.GetAllPosts();
+            return View(items);
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -9,17 +9,11 @@ namespace pagexd.Repositories
 {
     public interface IPageRepository
     {
-
         List<PostVM> GetUserContent(string userID);
-
         void CreatePost(PostVM postVM, PhotoVM photo);
         List<PostVM> GetAllPosts();
         PostVM GetPostByID(int id);
-
-        Post GetPostModelByID(int id);
-        void EditPostModel(Post post, string title, string txt, bool isaccepted, bool isarchivized);
-        void Edit(PostVM postVM);
+        void Edit(PostVM postVM, int id);
         void Delete(int id);
-
     }
 }

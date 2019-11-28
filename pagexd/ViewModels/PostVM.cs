@@ -13,9 +13,7 @@ namespace pagexd.ViewModels
         public string Txt { get; set; }
         public bool IsAccepted { get; set; }
         public bool IsArchived { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
         public string Photo { get; set; }
-
-        public string AuthorName { get; set; }
-    }
+    }   
 }

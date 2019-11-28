@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using pagexd.Data
 @inject SignInManager<PageUser> SignInManager
+@inject RoleManager<PageRole> RoleManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,12 +29,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NotAccepted">NotAccpeted</a>
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="Create">Add Content</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin panel</a>
                             </li>
                         }
 

@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<pagexd.ViewModels.PostVM>
 
-@{
-    ViewData["Title"] = "Home Page";
-}
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
 </div>
@@ -12,13 +8,18 @@
     <div class="row">
         @foreach (var m in Model)
         {
-            @if (m.IsAccepted == true && m.IsArchived == false)
+            @if (m.IsAccepted == false && m.IsArchived == false)
             {
                 <a href="@Url.Action("Details", "Post", new { id = @m.PostID })">
                     <div class="content-title">
                         <h1 class="display-4">@m.Title</h1>
                         <img src="@Url.Content(m.Photo)" width="600" height="600" />
                         <h5>@m.CreationDate</h5>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <h6 class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@m.PostID">Edit as Administrator</h6>
+                            
+                        }
                     </div>
                 </a>
             }
