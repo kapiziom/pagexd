@@ -9,5 +9,6 @@ namespace pagexd.ViewModels
     {
         public PostVM PostVM { get; set; }
         public CommentVM CommentVM { get; set; }
+        public List<CommentVM> CommentVMs { get; set; }
     }
 }

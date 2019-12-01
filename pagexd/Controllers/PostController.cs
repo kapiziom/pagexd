@@ -40,13 +40,14 @@ namespace pagexd.Controllers
         {
             var postwithcomments = new PostWithCommentsVM();
             var postVM = _pageRepository.GetPostByID(id);
+            if(postVM == null)
+            {
+                RedirectToAction("Index", "Home");
+            }
+            var comments = _pageRepository.GetCommentsInContent(postVM.PostID);
             postwithcomments.PostVM = postVM;
+            postwithcomments.CommentVMs = comments;
             return View(postwithcomments);
-        }
-
-        public IActionResult ListComments()
-        {
-            return View();
         }
 
         [Authorize]
@@ -61,25 +62,16 @@ namespace pagexd.Controllers
             var postVM = _pageRepository.GetPostByID(id);
             return View(postVM);
         }
-        [Authorize]
-        public IActionResult CreateComment(int id)
-        {
-            var postWithCommentsVM = new PostWithCommentsVM();
-            var postVM = _pageRepository.GetPostByID(id);
-            postWithCommentsVM.PostVM = postVM;
-            return View(postWithCommentsVM);
-        }
+
         [HttpPost]
-        public IActionResult Details(int id, PostWithCommentsVM postWithCommentsVM)
+        public IActionResult Comment(int id, PostWithCommentsVM postWithCommentsVM)
         {
             postWithCommentsVM.PostVM = _pageRepository.GetPostByID(id);
-            var post = postWithCommentsVM.PostVM;
             var comment = postWithCommentsVM.CommentVM;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             comment.UserID = userId;
-            comment.PostIDref = id;
-            _pageRepository.AddComment(comment, id);
-            return View(postWithCommentsVM);
+            _pageRepository.AddComment(comment);
+            return View();
         }
 
         [Authorize]

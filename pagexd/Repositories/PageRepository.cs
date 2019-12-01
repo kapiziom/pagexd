@@ -138,10 +138,8 @@ namespace pagexd.Repositories
             _context.SaveChanges();
         }
 
-        public void AddComment(CommentVM commentVM, int id)
+        public void AddComment(CommentVM commentVM)
         {
-            //var post = _context.Posts.FirstOrDefault(m => m.PostID == id);
-            //commentVM.PostIDref = id/*post.PostID*/;
             var comment = new Comment()
             {
                 CommentID = commentVM.CommentID,
@@ -150,7 +148,6 @@ namespace pagexd.Repositories
                 CreationDate = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
                 EditDate = null,
                 PostIDref = commentVM.PostIDref,
-                //Post = post,
             };
             _context.Comments.Add(comment);
             _context.SaveChanges();
