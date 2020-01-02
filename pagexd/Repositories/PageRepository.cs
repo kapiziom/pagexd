@@ -23,11 +23,22 @@ namespace pagexd.Repositories
             var post = _context.Posts.FirstOrDefault(m => m.PostID == id);
             post.Title = postVM.Title;
             post.Txt = postVM.Txt;
-            post.IsAccepted = postVM.IsAccepted;
-            post.IsArchived = postVM.IsArchived;
             _context.SaveChanges();
         }
-        
+        public void AdminEdit(PostVM postVM, int id)
+        {
+            var post = _context.Posts.FirstOrDefault(m => m.PostID == id);
+            post.Title = postVM.Title;
+            post.Txt = postVM.Txt;
+            post.IsAccepted = postVM.IsAccepted;
+            post.IsArchived = postVM.IsArchived;            
+            if(postVM.SetNewAcceptanceDate == true)
+            {
+                post.AcceptanceDate = DateTime.Now;
+            }
+            _context.SaveChanges();
+        }
+
         public PostVM GetPostByID(int id)
         {
             var post = _context.Posts.FirstOrDefault(m => m.PostID == id);
@@ -44,9 +55,10 @@ namespace pagexd.Repositories
                 Txt = post.Txt,
                 IsAccepted = post.IsAccepted,
                 IsArchived = post.IsArchived,
-                CreationDate = post.CreationDate,
+                CreationDate = post.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                AcceptanceDate = post.AcceptanceDate,
                 UserID = post.UserID,
-
+                Created = post.CreationDate,
 
             };
             postVM.Photo = photos.FirstOrDefault().PathForView;
@@ -79,7 +91,9 @@ namespace pagexd.Repositories
                     Txt = m.Txt,
                     IsAccepted = m.IsAccepted,
                     IsArchived = m.IsArchived,
-                    CreationDate = m.CreationDate,
+                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    AcceptanceDate = m.AcceptanceDate,
+                    Created = m.CreationDate,
                 };
                 var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
                 post.Photo = Photo.FirstOrDefault().PathForView;
@@ -104,7 +118,9 @@ namespace pagexd.Repositories
                     Txt = m.Txt,
                     IsAccepted = m.IsAccepted,
                     IsArchived = m.IsArchived,
-                    CreationDate = m.CreationDate,
+                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    Created = m.CreationDate,
+                    AcceptanceDate = m.AcceptanceDate,
                 };
                 var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
                 post.Photo = Photo.FirstOrDefault().PathForView;
@@ -120,10 +136,11 @@ namespace pagexd.Repositories
             {
                 Title = postVM.Title,
                 Txt = postVM.Txt,
-                CreationDate = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
-                IsAccepted = postVM.IsAccepted,
-                IsArchived = postVM.IsArchived,
+                CreationDate = DateTime.Now,
+                IsAccepted = false,
+                IsArchived = false,
                 UserID = postVM.UserID,
+                AcceptanceDate = null,
             };
 
             Photo photomodel = new Photo()
@@ -145,7 +162,7 @@ namespace pagexd.Repositories
                 CommentID = commentVM.CommentID,
                 UserID = commentVM.UserID,
                 Txt = commentVM.Txt,
-                CreationDate = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                CreationDate = DateTime.Now,
                 EditDate = null,
                 PostIDref = commentVM.PostIDref,
             };
@@ -164,8 +181,8 @@ namespace pagexd.Repositories
                     CommentID = m.CommentID,
                     UserID = m.UserID,
                     Txt = m.Txt,
-                    CreationDate = m.CreationDate,
-                    EditDate = m.EditDate,
+                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    EditDate = m.EditDate?.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
                     PostIDref = m.PostIDref,
                 };
                 model.Add(comment);

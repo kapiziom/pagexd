@@ -142,8 +142,6 @@ namespace pagexd.Controllers
             photo.Name = uniqueFileName;
             photo.PhotoPath = photopath;
             photo.PathForView = "~/images/" + uniqueFileName;
-            post.IsAccepted = true;
-            post.IsArchived = false;
             post.UserID = userId;
 
             _pageRepository.CreatePost(post, photo);

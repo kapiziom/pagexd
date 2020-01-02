@@ -12,8 +12,11 @@ namespace pagexd.ViewModels
         public string Title { get; set; }
         public string Txt { get; set; }
         public bool IsAccepted { get; set; }
+        public DateTime? AcceptanceDate { get; set; }
+        public bool SetNewAcceptanceDate { get; set; }
         public bool IsArchived { get; set; }
         public string CreationDate { get; set; }
+        public DateTime Created { get; set; }
         public string Photo { get; set; }
     }   
 }

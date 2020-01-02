@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pagexd.Data;
 
 namespace pagexd.Migrations.ModelDb
 {
     [DbContext(typeof(ModelDbContext))]
-    partial class ModelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200102192759_datetimeincommentmodel")]
+    partial class datetimeincommentmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,9 +87,6 @@ namespace pagexd.Migrations.ModelDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("AcceptanceDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");

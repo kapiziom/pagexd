@@ -14,6 +14,7 @@ namespace pagexd.Repositories
         List<PostVM> GetAllPosts();
         PostVM GetPostByID(int id);
         void Edit(PostVM postVM, int id);
+        void AdminEdit(PostVM postVM, int id);
         void Delete(int id);
         void AddComment(CommentVM comment);
         List<CommentVM> GetCommentsInContent(int postID);

@@ -16,11 +16,10 @@ namespace pagexd.Models
         public string UserID { get; set; }
         public string Txt { get; set; }
         public bool IsAccepted { get; set; }
-
+        public DateTime? AcceptanceDate { get; set; }
         public bool IsArchived { get; set; }
-        public string CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
         public List<Comment> Comments { get; set; }
-
         public int PhotoID { get; set; }
         public Photo Photo { get; set; } 
     }

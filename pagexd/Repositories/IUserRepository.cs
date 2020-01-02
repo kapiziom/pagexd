@@ -1,5 +1,6 @@
 ﻿using pagexd.Data;
 using pagexd.Models;
+using pagexd.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ namespace pagexd.Repositories
 
         List<PageUser> GetAllUsers();
 
+        List<UsersVM> GetAllUsersVM();
+
+        UsersVM GetUserByID(Guid id);
     }
 }
