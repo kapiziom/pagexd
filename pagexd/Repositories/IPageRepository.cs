@@ -11,12 +11,14 @@ namespace pagexd.Repositories
     {
         List<PostVM> GetUserContent(string userID);
         void CreatePost(PostVM postVM, PhotoVM photo);
-        List<PostVM> GetAllPosts();
+        List<PostVM> GetAllPostsByCreation();
+        List<PostVM> GetAllPostsByAcceptance();
         PostVM GetPostByID(int id);
         void Edit(PostVM postVM, int id);
         void AdminEdit(PostVM postVM, int id);
         void Delete(int id);
         void AddComment(CommentVM comment);
         List<CommentVM> GetCommentsInContent(int postID);
+        int GetCommentsNumber(int postID);
     }
 }

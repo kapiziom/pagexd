@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<pagexd.ViewModels.UsersVM>
+﻿@model IPagedList<pagexd.ViewModels.UsersVM>
 @{
     ViewData["Title"] = "UsersList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,16 +12,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                @Html.DisplayNameFor(model => model.First().UserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.First().UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.First().Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserRole)
+                @Html.DisplayNameFor(model => model.First().UserRole)
             </th>
 
             <th></th>
@@ -53,6 +52,21 @@
         }
     </tbody>
 </table>
+
+<div class="pull-right">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("UsersList",
+       new
+            {
+                page
+     }),
+     new PagedListRenderOptionsBase
+     {
+         LiElementClasses = new string[] { "page-item" },
+         PageClasses = new string[] { "page-link" },
+         Display = PagedListDisplayMode.IfNeeded
+
+          })
+</div>
 
 <div>
     <a asp-action="Index">Back to List</a>

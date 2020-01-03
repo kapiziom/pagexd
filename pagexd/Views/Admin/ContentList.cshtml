@@ -1,4 +1,4 @@
-﻿@model IEnumerable<pagexd.ViewModels.PostVM>
+﻿@model IPagedList<pagexd.ViewModels.PostVM>
 @{
     ViewData["Title"] = "ContentList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,19 +10,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.First().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Txt)
+                @Html.DisplayNameFor(model => model.First().Txt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Photo)
+                @Html.DisplayNameFor(model => model.First().Photo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAccepted)
+                @Html.DisplayNameFor(model => model.First().IsAccepted)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsArchived)
+                @Html.DisplayNameFor(model => model.First().IsArchived)
             </th>
             <th></th>
         </tr>
@@ -58,6 +58,21 @@
         }
     </tbody>
 </table>
+
+<div class="pull-right">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("ContentList",
+       new
+            {
+                page
+     }),
+     new PagedListRenderOptionsBase
+     {
+         LiElementClasses = new string[] { "page-item" },
+         PageClasses = new string[] { "page-link" },
+         Display = PagedListDisplayMode.IfNeeded
+
+          })
+</div>
 
 <div>
     <a asp-action="Index">Back to List</a>

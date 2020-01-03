@@ -18,5 +18,6 @@ namespace pagexd.ViewModels
         public string CreationDate { get; set; }
         public DateTime Created { get; set; }
         public string Photo { get; set; }
+        public int NoComments { get; set; }
     }   
 }

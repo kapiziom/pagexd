@@ -1,7 +1,7 @@
-﻿@model IEnumerable<pagexd.ViewModels.PostVM>
+﻿@model IPagedList<pagexd.ViewModels.PostVM>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Home Page";
 }
 
 <div class="text-center">
@@ -14,15 +14,34 @@
         {
             @if (m.IsAccepted == true && m.IsArchived == false)
             {
-                <a href="@Url.Action("Details", "Post", new { id = @m.PostID })">
-                    <div class="content-title">
-                        <h1 class="display-4">@m.Title</h1>
-                        <img src="@Url.Content(m.Photo)" width="600" height="600" />
-                        <h5>@m.CreationDate</h5>
-                    </div>
-                </a>
-                
+                <span style="white-space: pre-line"></span>
+                <div>
+                    <a href="@Url.Action("Details", "Post", new { id = @m.PostID })">
+                        <div class="content-title">
+                            <h1 style="min-width: 1000px">@m.Title</h1>
+                            <h5>@m.CreationDate</h5>
+                            <img src="@Url.Content(m.Photo)" alt="@m.Title" width="600" />
+                            <h5>Comments: @m.NoComments</h5>
+                        </div>
+                    </a>
+                </div>
+                <span style="white-space: pre-line"></span>
+
             }
         }
     </div>
+</div>
+<div class="pull-right">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index",
+       new
+            {
+                page
+     }),
+     new PagedListRenderOptionsBase
+     {
+         LiElementClasses = new string[] { "page-item" },
+         PageClasses = new string[] { "page-link" },
+         Display = PagedListDisplayMode.IfNeeded
+
+          })
 </div>

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pagexd.Models;
 using pagexd.Repositories;
+using X.PagedList.Mvc.Core;
+using X.PagedList;
+using X.PagedList.Mvc.Common;
 
 namespace pagexd.Controllers
 {
@@ -20,15 +23,19 @@ namespace pagexd.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            var items = _pageRepository.GetAllPosts();
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            var items = _pageRepository.GetAllPostsByAcceptance().ToPagedList(pageNumber, pageSize);
             return View(items);
         }
 
-        public IActionResult NotAccepted()
+        public IActionResult NotAccepted(int? page)
         {
-            var items = _pageRepository.GetAllPosts();
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            var items = _pageRepository.GetAllPostsByCreation().ToPagedList(pageNumber, pageSize);
             return View(items);
         }
 

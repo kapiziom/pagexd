@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pagexd.Repositories;
 using pagexd.ViewModels;
+using X.PagedList.Mvc.Core;
+using X.PagedList;
+using X.PagedList.Mvc.Common;
 
 namespace pagexd.Controllers
 {
@@ -26,17 +29,20 @@ namespace pagexd.Controllers
         {
             return View();
         }
-        public IActionResult ContentList()
+        public IActionResult ContentList(int? page)
         {
-            var items = _pageRepository.GetAllPosts();
-
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            var items = _pageRepository.GetAllPostsByCreation().ToPagedList(pageNumber, pageSize);
             return View(items);
         }
         
 
-        public IActionResult UsersList()
+        public IActionResult UsersList(int? page)
         {
-            var items = _userRepository.GetAllUsersVM();
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            var items = _userRepository.GetAllUsersVM().ToPagedList(pageNumber, pageSize);
             return View(items);
         }
 

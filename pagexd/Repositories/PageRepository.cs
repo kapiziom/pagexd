@@ -59,7 +59,7 @@ namespace pagexd.Repositories
                 AcceptanceDate = post.AcceptanceDate,
                 UserID = post.UserID,
                 Created = post.CreationDate,
-
+                NoComments = GetCommentsNumber(post.PostID),
             };
             postVM.Photo = photos.FirstOrDefault().PathForView;
             return postVM;
@@ -74,40 +74,12 @@ namespace pagexd.Repositories
             _context.Posts.Remove(post);
             _context.SaveChanges();
         }
-
-
-        public List<PostVM> GetAllPosts()
-        {
-            IEnumerable<Post> posts;
-            posts = _context.Posts.ToList();
-            var model = new List<PostVM>();
-
-            foreach (var m in posts)
-            {
-                var post = new PostVM()
-                {
-                    PostID = m.PostID,
-                    Title = m.Title,
-                    Txt = m.Txt,
-                    IsAccepted = m.IsAccepted,
-                    IsArchived = m.IsArchived,
-                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
-                    AcceptanceDate = m.AcceptanceDate,
-                    Created = m.CreationDate,
-                };
-                var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
-                post.Photo = Photo.FirstOrDefault().PathForView;
-                
-
-                model.Add(post);
-            }
-            return model;
-        }
-
+        
         public List<PostVM> GetUserContent(string userId)
         {
             IEnumerable<Post> posts;
-            posts = _context.Posts.Where(m => m.UserID == userId).ToList();
+            //posts = _context.Posts.Where(m => m.UserID == userId).ToList();
+            posts = _context.Posts.Where(m => m.UserID == userId).OrderByDescending(m => m.CreationDate).ToList();
             var model = new List<PostVM>();
             foreach (var m in posts)
             {
@@ -190,5 +162,74 @@ namespace pagexd.Repositories
             return model;
         }
 
+        public List<PostVM> GetAllPostsByAcceptance()
+        {
+            IEnumerable<Post> posts;
+            posts = _context.Posts.OrderByDescending(m => m.AcceptanceDate).ToList();
+            var model = new List<PostVM>();
+
+            foreach (var m in posts)
+            {
+                var post = new PostVM()
+                {
+                    PostID = m.PostID,
+                    Title = m.Title,
+                    Txt = m.Txt,
+                    IsAccepted = m.IsAccepted,
+                    IsArchived = m.IsArchived,
+                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    AcceptanceDate = m.AcceptanceDate,
+                    Created = m.CreationDate,
+                    NoComments = GetCommentsNumber(m.PostID),
+                };
+                var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
+                post.Photo = Photo.FirstOrDefault().PathForView;
+
+
+                model.Add(post);
+            }
+            return model;
+        }
+
+        public List<PostVM> GetAllPostsByCreation()
+        {
+            IEnumerable<Post> posts;
+            posts = _context.Posts.OrderByDescending(m => m.CreationDate).ToList();
+            var model = new List<PostVM>();
+
+            foreach (var m in posts)
+            {
+                var post = new PostVM()
+                {
+                    PostID = m.PostID,
+                    Title = m.Title,
+                    Txt = m.Txt,
+                    IsAccepted = m.IsAccepted,
+                    IsArchived = m.IsArchived,
+                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    AcceptanceDate = m.AcceptanceDate,
+                    Created = m.CreationDate,
+                    NoComments = GetCommentsNumber(m.PostID),
+                };
+                var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
+                post.Photo = Photo.FirstOrDefault().PathForView;
+
+
+                model.Add(post);
+            }
+            return model;
+        }
+
+        public int GetCommentsNumber(int postID)
+        {
+            IEnumerable<Comment> comments;
+            comments = _context.Comments.Where(m => m.PostIDref == postID).ToList();
+            int x=0;
+            foreach (var m in comments)
+            {
+                x = x + 1;
+            }
+            return x;
+        }
     }
 }

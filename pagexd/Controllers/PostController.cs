@@ -12,6 +12,9 @@ using pagexd.Data;
 using pagexd.Models;
 using pagexd.Repositories;
 using pagexd.ViewModels;
+using X.PagedList.Mvc.Core;
+using X.PagedList;
+using X.PagedList.Mvc.Common;
 
 namespace pagexd.Controllers
 {
@@ -102,14 +105,12 @@ namespace pagexd.Controllers
 
         [Authorize]
         [HttpGet("Identity/Account/Manage/YourContent")]
-        public IActionResult YourContent()
+        public IActionResult YourContent(int? page)
         {
-            
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            
-            var items = _pageRepository.GetUserContent(userId);
-
+            var items = _pageRepository.GetUserContent(userId).ToPagedList(pageNumber, pageSize);
             return View(items);
         }
 

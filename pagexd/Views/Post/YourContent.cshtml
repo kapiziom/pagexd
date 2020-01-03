@@ -1,4 +1,4 @@
-﻿@model IEnumerable<pagexd.ViewModels.PostVM>
+﻿@model IPagedList<pagexd.ViewModels.PostVM>
 
 @{
     ViewData["Title"] = "YourContent";
@@ -12,19 +12,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.First().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Txt)
+                @Html.DisplayNameFor(model => model.First().Txt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Photo)
+                @Html.DisplayNameFor(model => model.First().Photo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAccepted)
+                @Html.DisplayNameFor(model => model.First().IsAccepted)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsArchived)
+                @Html.DisplayNameFor(model => model.First().IsArchived)
             </th>
             <th></th>
         </tr>
@@ -40,11 +40,7 @@
                     @Html.DisplayFor(modelItem => item.Txt)
                 </td>
                 <td>
-                    @*<div class="display-field">
-            <img src="@Url.Content(@item.Photo)" alt="@item.Photo" />
-        </div>*@
                     <img src="@Url.Content(item.Photo)" width="200" height="200">
-
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsAccepted)
@@ -62,6 +58,21 @@
         }
     </tbody>
 </table>
+
+<div class="pull-right">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("YourContent",
+       new
+            {
+                page
+     }),
+     new PagedListRenderOptionsBase
+     {
+         LiElementClasses = new string[] { "page-item" },
+         PageClasses = new string[] { "page-link" },
+         Display = PagedListDisplayMode.IfNeeded
+
+          })
+</div>
 
 <div>
     <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Back</a>

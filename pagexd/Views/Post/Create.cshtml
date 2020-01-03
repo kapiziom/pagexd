@@ -1,13 +1,19 @@
 ﻿@model pagexd.ViewModels.PostPhotoVM
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create";    
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using Microsoft.AspNetCore.Identity
 @using pagexd.Data
 @using pagexd.Models
 @inject UserManager<PageUser> UserManager
 <h1>Add funny content @UserManager.GetUserId(User)</h1>
+<!-- add to document <head> -->
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
 
+<!-- include jQuery library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 <hr />
 <div class="row">
@@ -26,20 +32,16 @@
                 <textarea asp-for="PostVM.Txt" class="form-control"></textarea>
                 <span asp-validation-for="PostVM.Txt" class="text-danger"></span>
             </div>
-            
 
-
-            
-
-            <div class="form-group row">
-                <label asp-for="PhotoVM.File" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <div class="custom-file">
-                        <input asp-for="PhotoVM.File" class="form-control custom-file-input">
-                        <label class="custom-file-label">Choose File...</label>
+                <div class="form-group row">
+                    <label asp-for="PhotoVM.File" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <div class="custom-file">
+                            <input asp-for="PhotoVM.File" accept="image/*" class="form-control custom-file-input">
+                            <label class="custom-file-label">Choose File...</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
             <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -62,10 +64,10 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $(document).ready(function () {
-                $('.custom-file-input').on("change", function () {
-                    var fileName = $(this).val().split("\\").pop();
-                    $(this).next('.custom-file-label').html(fileName);
-                });
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
             });
+        });
     </script>
 }
