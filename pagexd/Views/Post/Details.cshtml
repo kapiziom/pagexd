@@ -24,6 +24,12 @@
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.PostVM.AcceptanceDate)
     </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.PostVM.UserID)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.PostVM.UserID)
+    </dd>
 }
 <div>
     <hr />
@@ -46,10 +52,10 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PostVM.IsAccepted)
         </dd>
-        
+
         <dt style="white-space: pre-line"></dt>
         <dd class="col-sm-10">
-            <img src="@Url.Content(Model.PostVM.Photo)"  style="max-width: 100%">
+            <img src="@Url.Content(Model.PostVM.Photo)" style="max-width: 100%">
         </dd>
     </dl>
 </div>

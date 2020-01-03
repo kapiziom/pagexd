@@ -51,21 +51,6 @@ namespace pagexd.Controllers
             var postVM = _pageRepository.GetPostByID(id);
             return View(postVM);
         }
-        [HttpGet("Admin/Delete/{id}")]
-        public IActionResult ContentDelete(int id)
-        {
-            
-            var postVM = _pageRepository.GetPostByID(id);
-            return View(postVM);
-        }
-
-        [HttpPost, ActionName("ContentDelete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            _pageRepository.Delete(id);
-            return RedirectToAction(nameof(Index));
-        }
 
         public IActionResult Edit(int id)
         {
@@ -86,10 +71,40 @@ namespace pagexd.Controllers
             return View(postVM);
         }
 
-        public IActionResult UserDetails(Guid id)
+        public IActionResult EditUser(Guid id)
+        {
+            
+            var userVM = _userRepository.GetUserByID(id);
+            if (userVM == null)
+            {
+                return NotFound();
+            }
+            return View(userVM);
+        }
+        [HttpPost]
+        public IActionResult EditUser(UserRoleVM userRoleVM,Guid id)
+        {
+            var roleVM = userRoleVM.RoleVM;
+            var userVM = userRoleVM.UserVM;
+            if (ModelState.IsValid)
+            {
+                _userRepository.AdminUserEdit(userVM, roleVM, id);
+            }
+            return View(userVM);
+        }
+
+        public IActionResult DetailsUser(Guid id)
         {
             var UserDetailsVM = _userRepository.GetUserByID(id);
             return View(UserDetailsVM);
         }
+        public IActionResult Archive(int? page)
+        {
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            var items = _pageRepository.GetAllPostsByCreation().ToPagedList(pageNumber, pageSize);
+            return View(items);
+        }
+
     }
 }

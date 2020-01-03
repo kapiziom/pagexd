@@ -7,13 +7,8 @@
 @using pagexd.Data
 @using pagexd.Models
 @inject UserManager<PageUser> UserManager
-<h1>Add funny content @UserManager.GetUserId(User)</h1>
-<!-- add to document <head> -->
-<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
-<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+<h1>Add funny content @UserManager.GetUserName(User)</h1>
 
-<!-- include jQuery library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 <hr />
 <div class="row">

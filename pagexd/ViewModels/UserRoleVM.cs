@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace pagexd.ViewModels
 {
-    public class PostPageVM
+    public class UserRoleVM
     {
-        public List<PostVM> postVMs { get; set; }
-        public int PageCount { get; set; }
+        public UsersVM UserVM { get; set; }
+        public RolesVM RoleVM { get; set; }
     }
 }

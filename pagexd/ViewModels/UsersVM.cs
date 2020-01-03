@@ -12,5 +12,6 @@ namespace pagexd.ViewModels
         public string Email { get; set; }
         public string UserRole { get; set; }
         public Guid UserRoleId { get; set; }
+        public string AccInfo { get; set; }
     }
 }

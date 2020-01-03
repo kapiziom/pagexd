@@ -8,5 +8,6 @@ namespace pagexd.Models
 {
     public class PageUser : IdentityUser<Guid>
     {
+        public string AccInfo { get; set; }
     }
 }

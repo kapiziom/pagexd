@@ -10,11 +10,9 @@ namespace pagexd.Repositories
 {
     public interface IUserRepository
     {
-
-        List<PageUser> GetAllUsers();
-
         List<UsersVM> GetAllUsersVM();
-
+        List<RolesVM> GetAllRoles();
         UsersVM GetUserByID(Guid id);
+        void AdminUserEdit(UsersVM userVM, RolesVM roleVM, Guid id);
     }
 }
