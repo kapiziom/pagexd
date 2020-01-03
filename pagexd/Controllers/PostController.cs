@@ -53,7 +53,7 @@ namespace pagexd.Controllers
             return View(postwithcomments);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,NormalUser")]
         public IActionResult Delete(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -67,6 +67,7 @@ namespace pagexd.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,NormalUser")]
         public IActionResult Comment(int id, PostWithCommentsVM postWithCommentsVM)
         {
             postWithCommentsVM.PostVM = _pageRepository.GetPostByID(id);
@@ -76,8 +77,8 @@ namespace pagexd.Controllers
             _pageRepository.AddComment(comment);
             return View();
         }
-
-        [Authorize]
+        [HttpGet]
+        [Authorize(Roles = "Administrator,NormalUser")]
         public IActionResult Edit(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -94,6 +95,7 @@ namespace pagexd.Controllers
             return View(post);
         }
         [HttpPost]
+        [Authorize(Roles = "Administrator,NormalUser")]
         public IActionResult Edit(int id, PostVM postVM)
         {
             if (ModelState.IsValid)
@@ -114,14 +116,15 @@ namespace pagexd.Controllers
             return View(items);
         }
 
-
-        [Authorize]
+        [HttpGet]
+        [Authorize(Roles = "Administrator,NormalUser")]
         public IActionResult Create()
         {
             return View();
         }
         // POST: Auction/Create
         [HttpPost]
+        [Authorize(Roles = "Administrator,NormalUser")]
         [ValidateAntiForgeryToken]
         public IActionResult Create(PostPhotoVM postPhotoVM)
         {
@@ -152,6 +155,7 @@ namespace pagexd.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator,NormalUser")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
