@@ -75,7 +75,7 @@ namespace pagexd.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             comment.UserID = userId;
             _pageRepository.AddComment(comment);
-            return View();
+            return View(comment);
         }
         [HttpGet]
         [Authorize(Roles = "Administrator,NormalUser")]

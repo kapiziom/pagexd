@@ -13,5 +13,7 @@ namespace pagexd.ViewModels
         public string UserRole { get; set; }
         public Guid UserRoleId { get; set; }
         public string AccInfo { get; set; }
+
+        public List<UserRoleCheckVM> Roles { get; set; }
     }
 }

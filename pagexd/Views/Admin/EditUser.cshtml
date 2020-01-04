@@ -1,0 +1,64 @@
+﻿@model pagexd.ViewModels.UsersVM
+@{
+    ViewData["Title"] = "EditUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>EditUser</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccInfo" class="control-label"></label>
+                <textarea asp-for="AccInfo" class="form-control" />
+                <span asp-validation-for="AccInfo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Roles, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <table>
+                        <tr><th>X</th><th>Role Name</th></tr>
+                        @for (int i = 0; i < Model.Roles.Count(); i++)
+                        {
+                            <tr>
+                                <td>@Html.EditorFor(m => Model.Roles[i].Checked)</td>
+                                <td>@Html.DisplayFor(m => Model.Roles[i].Name)</td>
+                            </tr>
+
+                            @Html.HiddenFor(m => Model.Roles[i].Name)
+                            @Html.HiddenFor(m => Model.Roles[i].Id)
+
+                        }
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

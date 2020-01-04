@@ -14,10 +14,14 @@ namespace pagexd.Repositories
     {
 
         ApplicationDbContext _applicationDbContext;
+        UserManager<PageUser> _userManager;
+        RoleManager<PageRole> _roleManager;
 
-        public UserRepository(ApplicationDbContext context)
+        public UserRepository(ApplicationDbContext context, UserManager<PageUser> userManager, RoleManager<PageRole> roleManager)
         {
             _applicationDbContext = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public List<RolesVM> GetAllRoles()
@@ -76,6 +80,7 @@ namespace pagexd.Repositories
 
             var userVM = new UsersVM()
             {
+                
                 UserId = id,
                 UserName = user.UserName,
                 Email = user.Email,
