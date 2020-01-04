@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using pagexd.Data;
 using pagexd.Models;
@@ -92,10 +93,72 @@ namespace pagexd.Repositories
             return userVM;
         }
 
-        public void AdminUserEdit(UsersVM userVM, RolesVM roleVM, Guid id)
+        public UsersVM GetUserForEdit(Guid id)
         {
-            
+            var user = _applicationDbContext.Users.FirstOrDefault(m => m.Id == id);
+            if (user == null)
+            {
+                return null;
+            }
+            var UserRole = _applicationDbContext.UserRoles.Where(m => m.UserId == id);
+
+            var userVM = new UsersVM()
+            {
+
+                UserId = id,
+                UserName = user.UserName,
+                Email = user.Email,
+                UserRoleId = UserRole.FirstOrDefault().RoleId,
+                AccInfo = user.AccInfo,
+            };
+            var RoleName = _applicationDbContext.Roles.Where(m => m.Id == userVM.UserRoleId);
+            userVM.UserRole = RoleName.FirstOrDefault().NormalizedName;
+
+            var Results = from role in _applicationDbContext.Roles
+                          select new
+                          {
+                              role.Id,
+                              role.NormalizedName,
+                              Checked = ((from ur in _applicationDbContext.UserRoles
+                                          where (ur.UserId == userVM.UserId) & (ur.RoleId == role.Id)
+                                          select ur).Count() > 0)
+                          };
+
+            var MyCheckBoxList = new List<UserRoleCheckVM>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new UserRoleCheckVM { Id = item.Id, Name = item.NormalizedName, Checked = item.Checked });
+            }
+
+            userVM.Roles = MyCheckBoxList;
+            return userVM;
         }
-        
+
+        public void EditUser(UsersVM userVM)
+        {
+            var MyUser = _applicationDbContext.Users.Find(userVM.UserId);
+            MyUser.UserName = userVM.UserName;
+            MyUser.Email = userVM.Email;
+            MyUser.AccInfo = userVM.AccInfo;
+
+            foreach (var item in _applicationDbContext.UserRoles)
+            {
+                if (item.UserId == userVM.UserId)
+                {
+                    _applicationDbContext.Entry(item).State = EntityState.Deleted;
+                }
+            }
+            foreach (var item in userVM.Roles)
+            {
+                if (item.Checked)
+                {
+                    _applicationDbContext.UserRoles.Add(new IdentityUserRole<Guid> { UserId = userVM.UserId, RoleId = item.Id });
+                }
+            }
+
+            _applicationDbContext.SaveChanges();
+        }
+
     }
 }
