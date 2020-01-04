@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pagexd.Models;
 using pagexd.Repositories;
-using X.PagedList.Mvc.Core;
 using X.PagedList;
-using X.PagedList.Mvc.Common;
 
 namespace pagexd.Controllers
 {

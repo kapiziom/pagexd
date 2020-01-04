@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using pagexd.Data;
-using pagexd.Models;
 using pagexd.Repositories;
 using pagexd.ViewModels;
-using X.PagedList.Mvc.Core;
 using X.PagedList;
-using X.PagedList.Mvc.Common;
 
 namespace pagexd.Controllers
 {
