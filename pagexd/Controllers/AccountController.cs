@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using pagexd.Models;
 using pagexd.ViewModels;
@@ -54,7 +51,7 @@ namespace pagexd.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "NormalUser");
+                    await _userManager.AddToRoleAsync(user, "NormalUser");//set 'normaluser' role in registration
                     
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
@@ -66,10 +63,6 @@ namespace pagexd.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-
-
-
 
         #region Helpers
 

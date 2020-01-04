@@ -28,7 +28,7 @@
                     <div>
                         @if (User.IsInRole("Administrator"))
                         {
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@m.PostID">Edit as Administrator</a>
+                            <a asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@m.PostID">Edit as Administrator</a>
                         }
                     </div>
                 </div>

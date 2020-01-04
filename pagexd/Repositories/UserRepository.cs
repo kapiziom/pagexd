@@ -81,29 +81,6 @@ namespace pagexd.Repositories
 
             var userVM = new UsersVM()
             {
-                
-                UserId = id,
-                UserName = user.UserName,
-                Email = user.Email,
-                UserRoleId = UserRole.FirstOrDefault().RoleId,
-                AccInfo = user.AccInfo,
-            };
-            var RoleName = _applicationDbContext.Roles.Where(m => m.Id == userVM.UserRoleId);
-            userVM.UserRole = RoleName.FirstOrDefault().NormalizedName;
-            return userVM;
-        }
-
-        public UsersVM GetUserForEdit(Guid id)
-        {
-            var user = _applicationDbContext.Users.FirstOrDefault(m => m.Id == id);
-            if (user == null)
-            {
-                return null;
-            }
-            var UserRole = _applicationDbContext.UserRoles.Where(m => m.UserId == id);
-
-            var userVM = new UsersVM()
-            {
 
                 UserId = id,
                 UserName = user.UserName,

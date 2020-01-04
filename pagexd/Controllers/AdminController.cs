@@ -67,7 +67,7 @@ namespace pagexd.Controllers
 
         public IActionResult EditUser(Guid id)
         {
-            var userVM = _userRepository.GetUserForEdit(id);
+            var userVM = _userRepository.GetUserByID(id);
             if (userVM == null)
             {
                 return NotFound();

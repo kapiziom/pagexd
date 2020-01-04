@@ -16,7 +16,10 @@
 @if (User.IsInRole("Administrator"))
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@Model.PostVM.PostID">Edit as Administrator</a>
+        <a asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@Model.PostVM.PostID">Edit as Administrator</a>
+    </li>
+    <li class="nav-item">
+        <a asp-area="" asp-controller="Admin" asp-action="ContentList">Content List</a>
     </li>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.PostVM.AcceptanceDate)

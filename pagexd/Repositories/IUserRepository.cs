@@ -13,7 +13,6 @@ namespace pagexd.Repositories
         List<UsersVM> GetAllUsersVM();
         List<RolesVM> GetAllRoles();
         UsersVM GetUserByID(Guid id);
-        UsersVM GetUserForEdit(Guid id);
         void EditUser(UsersVM userVM);
     }
 }
