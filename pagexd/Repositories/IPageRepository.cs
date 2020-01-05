@@ -14,6 +14,7 @@ namespace pagexd.Repositories
         List<PostVM> GetAllPostsByCreation();
         List<PostVM> GetAllPostsByAcceptance();
         PostVM GetPostByID(int id);
+        PhotoVM GetPhotoByPostIdRef(int id);
         void Edit(PostVM postVM, int id);
         void AdminEdit(PostVM postVM, int id);
         void Delete(int id);

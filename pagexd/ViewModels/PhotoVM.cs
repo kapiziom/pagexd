@@ -13,7 +13,7 @@ namespace pagexd.ViewModels
         public string Name { get; set; }
         public IFormFile File { get; set; }
         public int PostID { get; set; }
-
+        public string Uri { get; set; }
         public string PathForView { get; set; }
     }
 }

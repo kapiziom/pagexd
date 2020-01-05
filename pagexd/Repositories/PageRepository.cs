@@ -12,10 +12,12 @@ namespace pagexd.Repositories
     public class PageRepository : IPageRepository
     {
         private readonly ModelDbContext _context;
+        //private readonly IPhotoBlobStorage _photoBlobStorageProvider;
 
-        public PageRepository(ModelDbContext modelDbContext)
+        public PageRepository(ModelDbContext modelDbContext/*, IPhotoBlobStorage photoBlobStorage*/)
         {
             _context = modelDbContext;
+            //_photoBlobStorageProvider = photoBlobStorage;
         }
  
         public void Edit(PostVM postVM, int id)
@@ -61,15 +63,30 @@ namespace pagexd.Repositories
                 Created = post.CreationDate,
                 NoComments = GetCommentsNumber(post.PostID),
             };
-            postVM.Photo = photos.FirstOrDefault().PathForView;
+            postVM.Photo = photos.FirstOrDefault().Uri;
             return postVM;
+        }
+
+        public PhotoVM GetPhotoByPostIdRef(int id)
+        {
+            var photo = _context.Photos.FirstOrDefault(m => m.PostIDref == id);
+            if (photo == null)
+            {
+                return null;
+            }
+            var photoVM = new PhotoVM()
+            {
+                PhotoID = photo.PhotoID,
+                Name = photo.Name,
+                Uri = photo.Uri,
+            };
+            return photoVM;
         }
 
         public void Delete(int id)
         {
             var post = _context.Posts.First(m => m.PostID == id);
             var photo = _context.Photos.First(m => m.PostIDref == id);
-            File.Delete(photo.PhotoPath);
             _context.Photos.Remove(photo);
             _context.Posts.Remove(post);
             _context.SaveChanges();
@@ -78,7 +95,6 @@ namespace pagexd.Repositories
         public List<PostVM> GetUserContent(string userId)
         {
             IEnumerable<Post> posts;
-            //posts = _context.Posts.Where(m => m.UserID == userId).ToList();
             posts = _context.Posts.Where(m => m.UserID == userId).OrderByDescending(m => m.CreationDate).ToList();
             var model = new List<PostVM>();
             foreach (var m in posts)
@@ -95,7 +111,7 @@ namespace pagexd.Repositories
                     AcceptanceDate = m.AcceptanceDate,
                 };
                 var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
-                post.Photo = Photo.FirstOrDefault().PathForView;
+                post.Photo = Photo.FirstOrDefault().Uri;
 
                 model.Add(post);
             }
@@ -104,6 +120,7 @@ namespace pagexd.Repositories
 
         public void CreatePost(PostVM postVM, PhotoVM photo)
         {
+            
             Post postmodel = new Post()
             {
                 Title = postVM.Title,
@@ -117,10 +134,11 @@ namespace pagexd.Repositories
 
             Photo photomodel = new Photo()
             {
-                PhotoPath = photo.PhotoPath,
-                PathForView = photo.PathForView,
+                //PhotoPath = photo.PhotoPath,
+                //PathForView = photo.PathForView,
                 Name = photo.Name,
                 Post = postmodel,
+                Uri = photo.Uri,
             };
             _context.Posts.Add(postmodel);
             _context.Photos.Add(photomodel);
@@ -183,7 +201,7 @@ namespace pagexd.Repositories
                     NoComments = GetCommentsNumber(m.PostID),
                 };
                 var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
-                post.Photo = Photo.FirstOrDefault().PathForView;
+                post.Photo = Photo.FirstOrDefault().Uri;
 
 
                 model.Add(post);
@@ -212,7 +230,7 @@ namespace pagexd.Repositories
                     NoComments = GetCommentsNumber(m.PostID),
                 };
                 var Photo = _context.Photos.Where(m => m.PostIDref == post.PostID);
-                post.Photo = Photo.FirstOrDefault().PathForView;
+                post.Photo = Photo.FirstOrDefault().Uri;
 
 
                 model.Add(post);

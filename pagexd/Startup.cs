@@ -29,12 +29,6 @@ namespace pagexd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            //services.AddIdentity<PageUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
-            
-
             services.AddMvc();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -53,6 +47,7 @@ namespace pagexd
 
             services.AddScoped<IPageRepository, PageRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IStorageAccRepository, StorageAccRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 

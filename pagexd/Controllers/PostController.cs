@@ -15,11 +15,13 @@ namespace pagexd.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IPageRepository _pageRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IStorageAccRepository _storageAccRepository;
 
-        public PostController(IPageRepository pageRepository, IWebHostEnvironment webHosting, IUserRepository userRepository)
+        public PostController(IPageRepository pageRepository, IWebHostEnvironment webHosting, IUserRepository userRepository, IStorageAccRepository storageAccRepository)
         {
             _userRepository = userRepository;
             _pageRepository = pageRepository;
+            _storageAccRepository = storageAccRepository;
             _hostingEnvironment = webHosting;
         }
       
@@ -43,20 +45,7 @@ namespace pagexd.Controllers
             postwithcomments.PostVM = postVM;
             postwithcomments.CommentVMs = comments;
             return View(postwithcomments);
-        }
-
-        [Authorize(Roles = "Administrator,NormalUser")]
-        public IActionResult Delete(int id)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var checkmodel = _pageRepository.GetPostByID(id);
-            if (userId != checkmodel.UserID)
-            {
-                return RedirectToAction("Error");
-            }
-            var postVM = _pageRepository.GetPostByID(id);
-            return View(postVM);
-        }
+        } 
 
         [HttpPost]
         [Authorize(Roles = "Administrator,NormalUser")]
@@ -123,36 +112,38 @@ namespace pagexd.Controllers
             var post = postPhotoVM.PostVM;
             var photo = postPhotoVM.PhotoVM;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
             string uniqueFileName = null;
-            string photopath = null;
             if (photo.File != null)
-            {                
-                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.File.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                photo.File.CopyTo(new FileStream(filePath, FileMode.Create));
-                photopath = filePath;
+            {
+                uniqueFileName = Guid.NewGuid().ToString();
+                photo.Uri = _storageAccRepository.SavePhoto(photo.File, uniqueFileName);
             }
-            
             photo.Name = uniqueFileName;
-            photo.PhotoPath = photopath;
-            photo.PathForView = "~/images/" + uniqueFileName;
             post.UserID = userId;
-
             _pageRepository.CreatePost(post, photo);
-
-            
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Delete(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var checkmodel = _pageRepository.GetPostByID(id);
+            if (userId != checkmodel.UserID)
+            {
+                return RedirectToAction("Error");
+            }
+            var postVM = _pageRepository.GetPostByID(id);
+            return View(postVM);
+        }
+
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrator,NormalUser")]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             _pageRepository.Delete(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
     }

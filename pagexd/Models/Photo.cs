@@ -10,10 +10,9 @@ namespace pagexd.Models
     {
         [Key]
         public int PhotoID { get; set; }
-        public string PhotoPath { get; set; }
         public string Name { get; set; }
         public int PostIDref { get; set; }
-        public string PathForView { get; set; }
+        public string Uri { get; set; }
         public Post Post { get; set; }
     }
 }

@@ -32,7 +32,7 @@
                     <label asp-for="PhotoVM.File" class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-10">
                         <div class="custom-file">
-                            <input asp-for="PhotoVM.File" accept="image/*" class="form-control custom-file-input">
+                            <input asp-for="PhotoVM.File" accept="image/*" data-max-size="1536" class="form-control custom-file-input">
                             <label class="custom-file-label">Choose File...</label>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Home" asp-action="Index">Back to main page</a>
 </div>
 
 @section Scripts {
