@@ -5,6 +5,11 @@ namespace pagexd.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(16, ErrorMessage = "The {0} must be at least {2} characters long and maximum {1} characters", MinimumLength = 3)]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

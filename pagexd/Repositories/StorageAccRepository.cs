@@ -15,7 +15,7 @@ namespace pagexd.Repositories
         private readonly CloudBlobClient cloudBlobClient;
         public StorageAccRepository()
         {
-            storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=           ;EndpointSuffix=core.windows.net");
+            storageAccount = CloudStorageAccount.Parse(  /*hidden*/   );
             cloudBlobClient = storageAccount.CreateCloudBlobClient();
             photoContainer = cloudBlobClient.GetContainerReference("photos");
 
@@ -34,6 +34,15 @@ namespace pagexd.Repositories
                 return blob.Uri.ToString();
             }
         }
-        
+        public void Delete(string filename)
+        {
+            string fname = filename;
+            CloudBlockBlob blob = photoContainer.GetBlockBlobReference(fname);
+            //blob.Delete();
+            blob.DeleteAsync();
+
+            //var blob = photoContainer.GetBlockBlobReference(uriname);
+            //blob.DeleteIfExistsAsync();
+        }
     }
 }

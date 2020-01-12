@@ -11,6 +11,7 @@ namespace pagexd.Models
         [Key]
         public int CommentID { get; set; }
         public string UserID { get; set; }
+        public string UserName { get; set; }
         [Required]
         public string Txt { get; set; }
         public DateTime CreationDate { get; set; }

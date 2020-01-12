@@ -54,7 +54,9 @@ namespace pagexd.Controllers
             postWithCommentsVM.PostVM = _pageRepository.GetPostByID(id);
             var comment = postWithCommentsVM.CommentVM;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var username = User.FindFirstValue(ClaimTypes.Name);
             comment.UserID = userId;
+            comment.UserName = username;
             _pageRepository.AddComment(comment);
             return View(comment);
         }
@@ -112,14 +114,18 @@ namespace pagexd.Controllers
             var post = postPhotoVM.PostVM;
             var photo = postPhotoVM.PhotoVM;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var username = User.FindFirstValue(ClaimTypes.Name);
+            
             string uniqueFileName = null;
             if (photo.File != null)
             {
                 uniqueFileName = Guid.NewGuid().ToString();
                 photo.Uri = _storageAccRepository.SavePhoto(photo.File, uniqueFileName);
             }
+
             photo.Name = uniqueFileName;
             post.UserID = userId;
+            post.UserName = username;
             _pageRepository.CreatePost(post, photo);
             return RedirectToAction("Index", "Home");
         }

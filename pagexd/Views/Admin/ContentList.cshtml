@@ -34,10 +34,23 @@
         {
             <tr>
                 <td>
+                    @if(item.Title.Length > 23)
+                    {
+                        item.Title = item.Title.Substring(0, 22) + "...";
+                    }
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Txt)
+                    @if (item.Txt == null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Txt)
+                    }
+                    
+                    @if (item.Txt != null && item.Txt.Length > 23)
+                    {
+                        item.Txt = item.Txt.Substring(0, 22) + "...";
+                    }
+
                 </td>
                 <td>
                     

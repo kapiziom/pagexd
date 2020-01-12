@@ -30,7 +30,7 @@ namespace pagexd.Controllers
 
         //
         // GET: /Account/Register
-        [HttpGet]
+        [HttpGet("Identity/Account/Register")]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
@@ -39,7 +39,7 @@ namespace pagexd.Controllers
         }
 
         // POST: /Account/Register
-        [HttpPost]
+        [HttpPost("Identity/Account/Register")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
@@ -47,7 +47,7 @@ namespace pagexd.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new PageUser { UserName = model.Email, Email = model.Email };
+                var user = new PageUser { UserName = model.UserName, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -63,6 +63,52 @@ namespace pagexd.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        // GET: /Account/Login
+        [HttpGet("Identity/Account/Login")]
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        //
+        // POST: /Account/Login
+        [HttpPost("Identity/Account/Login")]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation(1, "User logged in.");
+                    return RedirectToLocal(returnUrl);
+                }
+                
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning(2, "User account locked out.");
+                    return View("Lockout");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
 
         #region Helpers
 

@@ -12,12 +12,12 @@ namespace pagexd.Repositories
     public class PageRepository : IPageRepository
     {
         private readonly ModelDbContext _context;
-        //private readonly IPhotoBlobStorage _photoBlobStorageProvider;
+        private readonly ApplicationDbContext _identitycontext;
 
-        public PageRepository(ModelDbContext modelDbContext/*, IPhotoBlobStorage photoBlobStorage*/)
+        public PageRepository(ModelDbContext modelDbContext, ApplicationDbContext applicationDbContext)
         {
             _context = modelDbContext;
-            //_photoBlobStorageProvider = photoBlobStorage;
+            _identitycontext = applicationDbContext;
         }
  
         public void Edit(PostVM postVM, int id)
@@ -60,6 +60,7 @@ namespace pagexd.Repositories
                 CreationDate = post.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
                 AcceptanceDate = post.AcceptanceDate,
                 UserID = post.UserID,
+                UserName = post.UserName,
                 Created = post.CreationDate,
                 NoComments = GetCommentsNumber(post.PostID),
             };
@@ -129,13 +130,12 @@ namespace pagexd.Repositories
                 IsAccepted = false,
                 IsArchived = false,
                 UserID = postVM.UserID,
+                UserName = postVM.UserName,
                 AcceptanceDate = null,
             };
 
             Photo photomodel = new Photo()
             {
-                //PhotoPath = photo.PhotoPath,
-                //PathForView = photo.PathForView,
                 Name = photo.Name,
                 Post = postmodel,
                 Uri = photo.Uri,
@@ -151,6 +151,7 @@ namespace pagexd.Repositories
             {
                 CommentID = commentVM.CommentID,
                 UserID = commentVM.UserID,
+                UserName = commentVM.UserName,
                 Txt = commentVM.Txt,
                 CreationDate = DateTime.Now,
                 EditDate = null,
@@ -170,9 +171,10 @@ namespace pagexd.Repositories
                 {
                     CommentID = m.CommentID,
                     UserID = m.UserID,
+                    UserName = m.UserName,
                     Txt = m.Txt,
-                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
-                    EditDate = m.EditDate?.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    CreationDate = m.CreationDate.ToString("dd MMMM yyyy HH:mm:ss"),
+                    EditDate = m.EditDate?.ToString("dd MMMM yyyy HH:mm:ss"),
                     PostIDref = m.PostIDref,
                 };
                 model.Add(comment);
@@ -191,11 +193,12 @@ namespace pagexd.Repositories
                 var post = new PostVM()
                 {
                     PostID = m.PostID,
+                    UserName = m.UserName,
                     Title = m.Title,
                     Txt = m.Txt,
                     IsAccepted = m.IsAccepted,
                     IsArchived = m.IsArchived,
-                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    CreationDate = m.CreationDate.ToString("dd MMMM yyyy HH:mm:ss"),
                     AcceptanceDate = m.AcceptanceDate,
                     Created = m.CreationDate,
                     NoComments = GetCommentsNumber(m.PostID),
@@ -220,11 +223,12 @@ namespace pagexd.Repositories
                 var post = new PostVM()
                 {
                     PostID = m.PostID,
+                    UserName = m.UserName,
                     Title = m.Title,
                     Txt = m.Txt,
                     IsAccepted = m.IsAccepted,
                     IsArchived = m.IsArchived,
-                    CreationDate = m.CreationDate.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
+                    CreationDate = m.CreationDate.ToString("dd MMMM yyyy HH:mm:ss"),
                     AcceptanceDate = m.AcceptanceDate,
                     Created = m.CreationDate,
                     NoComments = GetCommentsNumber(m.PostID),

@@ -11,5 +11,6 @@ namespace pagexd.Repositories
     public interface IStorageAccRepository
     {
         string SavePhoto(IFormFile file, string name);
+        void Delete(string filename);
     }
 }

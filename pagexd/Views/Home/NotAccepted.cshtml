@@ -9,46 +9,53 @@
     <h1 class="display-4">Welcome</h1>
 </div>
 
-<div class="container">
-    <div class="row">
-        @foreach (var m in Model)
+<div class="container" style="width: 600px; max-width: 100%; float: left; ">
+    @foreach (var m in Model)
         {
-            @if (m.IsAccepted == false && m.IsArchived == false)
+    @if (m.IsAccepted == false && m.IsArchived == false)
             {
-                <span style="white-space: pre-line"></span>
-                <div>
-                    <a href="@Url.Action("Details", "Post", new { id = @m.PostID })">
-                        <div class="content-title">
-                            <h1 style="min-width: 100%">@m.Title</h1>
-                            <h5>@m.CreationDate</h5>
-                            <img src="@Url.Content(m.Photo)" alt="@m.Title" width="600" style="max-width: 100%" />
-                            <h5>Comments: @m.NoComments</h5>
-                        </div>
-                    </a>
-                    <div>
-                        @if (User.IsInRole("Administrator"))
+    <span style="white-space: pre-line"></span>
+    <div>
+        <a href="@Url.Action("Details", "Post", new { id = @m.PostID })">
+            <div class="content-title">
+                @if (m.Title.Length > 23)
+                            {
+                                m.Title = m.Title.Substring(0, 22) + "...";
+                            }
+                <h1 style="min-width: 100%; text-align:left ;max-width:100%; overflow:hidden">@m.Title</h1>
+                <p style="text-align:left; ">
+                    @m.UserName
+                    <span style="float:right;">
+                        @m.CreationDate
+                    </span>
+                </p>
+                <img src="@Url.Content(m.Photo)" alt="@m.Title" width="600" style="max-width: 100%; height: auto" />
+                <h5>Comments: @m.NoComments</h5>
+            </div>
+        </a>
+        <div>
+            @if (User.IsInRole("Administrator"))
                         {
-                            <a asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@m.PostID">Edit as Administrator</a>
+            <a asp-area="" asp-controller="Admin" asp-action="Edit" asp-route-id="@m.PostID">Edit as Administrator</a>
                         }
-                    </div>
-                </div>
-                <span style="white-space: pre-line"></span>
+        </div>
+    </div>
+    <span style="white-space: pre-line"></span>
             }
         }
+    <div class="pull-right">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("NotAccepted",
+           new
+                {
+                    page
+         }),
+         new PagedListRenderOptionsBase
+         {
+             LiElementClasses = new string[] { "page-item" },
+             PageClasses = new string[] { "page-link" },
+             Display = PagedListDisplayMode.IfNeeded
+
+              })
     </div>
 </div>
 
-<div class="pull-right">
-    @Html.PagedListPager((IPagedList)Model, page => Url.Action("NotAccepted",
-       new
-            {
-                page
-     }),
-     new PagedListRenderOptionsBase
-     {
-         LiElementClasses = new string[] { "page-item" },
-         PageClasses = new string[] { "page-link" },
-         Display = PagedListDisplayMode.IfNeeded
-
-          })
-</div>

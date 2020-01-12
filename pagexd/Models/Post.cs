@@ -12,7 +12,7 @@ namespace pagexd.Models
         public int PostID { get; set; }
         [Required]
         public string Title { get; set; }
-
+        public string UserName { get; set; }
         public string UserID { get; set; }
         public string Txt { get; set; }
         public bool IsAccepted { get; set; }

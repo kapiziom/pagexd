@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace pagexd.ViewModels
     {
         public int PostID { get; set; }
         public string UserID { get; set; }
+        public string UserName { get; set; }
+        [Required]
         public string Title { get; set; }
         public string Txt { get; set; }
         public bool IsAccepted { get; set; }

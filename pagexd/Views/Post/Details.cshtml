@@ -33,10 +33,22 @@
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.PostVM.UserID)
     </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.PostVM.IsAccepted)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.PostVM.IsAccepted)
+    </dd>
 }
 <div>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            Author:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PostVM.UserName)
+        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PostVM.Title)
         </dt>
@@ -49,56 +61,65 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PostVM.Txt)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PostVM.IsAccepted)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PostVM.IsAccepted)
-        </dd>
 
         <dt style="white-space: pre-line"></dt>
         <dd class="col-sm-10">
-            <img src="@Url.Content(Model.PostVM.Photo)" style="max-width: 100%">
+            <img src="@Url.Content(Model.PostVM.Photo)" width="600" style="max-width: 100%">
         </dd>
     </dl>
-</div>
-<div>
+
+
     @if (SignInManager.IsSignedIn(User))
     {
-        <form enctype="multipart/form-data" asp-action="Comment" method="post" class="mt-3">
-            <div class="form-group">
-                <label asp-for="CommentVM.Txt" class="control-label"></label>
-                <textarea asp-for="CommentVM.Txt" class="form-control"></textarea>
-                <span asp-validation-for="CommentVM.Txt" class="text-danger"></span>
-            </div>
+            <div style="width:600px;max-width:100%">
+                <form asp-action="Comment" method="post">
+                    <div class="form-group">
+                        <label asp-for="CommentVM.Txt"></label>
+                        <textarea style="width:100%;" id="commentarea" asp-for="CommentVM.Txt" class="form-control"></textarea>
+                        <span asp-validation-for="CommentVM.Txt" class="text-danger"></span>
+                    </div>
 
-            <input name="CommentVM.PostIDref" type="hidden" value="@Model.PostVM.PostID" />
-            <div class="form-group">
-                <input type="submit" value="Add Comment" class="btn btn-primary" />
+                    <input name="CommentVM.PostIDref" type="hidden" value="@Model.PostVM.PostID" />
+                    <div class="form-group">
+                        <input id="addcomment" type="submit" value="Add Comment" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-        </form>
+    }
+    <script>
+        $(document).ready(function () {
+            $('#addcomment').attr('disabled', true);
+
+            $('#commentarea').keyup(function () {
+                if ($(this).val().length != 0) {
+                    $('#addcomment').attr('disabled', false);
+                }
+                else {
+                    $('#addcomment').attr('disabled', true);
+                }
+            })
+        });
+    </script>
+
+    <div>
+        <a href='javascript:history.go(-1)'>Go Back to Previous Page</a>
+    </div>
+
+
+    <h3>Comments:</h3>
+    @foreach (var m in Model.CommentVMs.OrderByDescending(m => m.CreationDate))
+    {
+        <div class="container" style="width: 600px; max-width: 100%; float: left; ">
+            <p style="text-align:left;">
+                <b>Author: </b>@m.UserName
+                <span style="float:right; text-decoration-color: blue">
+                    @m.CreationDate
+                </span>
+            </p>
+            <p style="text-indent: 10px; word-wrap:break-word ">
+                @m.Txt
+            </p>
+        </div>
     }
 
-
 </div>
-<div>
-    <a href='javascript:history.go(-1)'>Go Back to Previous Page</a>
-</div>
-
-
-<h3>Comments:</h3>
-@foreach (var m in Model.CommentVMs.OrderByDescending(m => m.CreationDate))
-{
-    <div>
-        <dl>
-            <dt class="col-sm-2">
-                @m.CreationDate
-            </dt>
-            <dd class="col-sm-10">
-                @m.Txt
-            </dd>
-
-        </dl>
-    </div>
-}
-

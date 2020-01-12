@@ -17,10 +17,10 @@ namespace pagexd.Data
 
         public static void SeedUsers(UserManager<PageUser> userManager)
         {
-            if (userManager.FindByNameAsync("us1@x.d").Result == null)
+            if (userManager.FindByNameAsync("user001").Result == null)
             {
                 PageUser user = new PageUser();
-                user.UserName = "us1@x.d";
+                user.UserName = "user001";
                 user.Email = "us1@x.d";
                 user.AccInfo = "test account";
 
@@ -33,10 +33,10 @@ namespace pagexd.Data
                 }
             }
 
-            if (userManager.FindByNameAsync("us2@x.d").Result == null)
+            if (userManager.FindByNameAsync("user002").Result == null)
             {
                 PageUser user = new PageUser();
-                user.UserName = "us2@x.d";
+                user.UserName = "user002";
                 user.Email = "us2@x.d";
                 user.AccInfo = "test acc 2";
 
@@ -48,10 +48,10 @@ namespace pagexd.Data
                 }
             }
 
-            if (userManager.FindByNameAsync("xd@xd.xd").Result == null)
+            if (userManager.FindByNameAsync("admin").Result == null)
             {
                 PageUser user = new PageUser();
-                user.UserName = "xd@xd.xd";
+                user.UserName = "admin";
                 user.Email = "xd@xd.xd";
                 user.AccInfo = "administrator account";
 
