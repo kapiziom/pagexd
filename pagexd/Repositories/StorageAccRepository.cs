@@ -34,15 +34,6 @@ namespace pagexd.Repositories
                 return blob.Uri.ToString();
             }
         }
-        public void Delete(string filename)
-        {
-            string fname = filename;
-            CloudBlockBlob blob = photoContainer.GetBlockBlobReference(fname);
-            //blob.Delete();
-            blob.DeleteAsync();
-
-            //var blob = photoContainer.GetBlockBlobReference(uriname);
-            //blob.DeleteIfExistsAsync();
-        }
+        
     }
 }
