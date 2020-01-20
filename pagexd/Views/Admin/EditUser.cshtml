@@ -31,6 +31,11 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Roles, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
+                    <div class="form-group">
+                        <label asp-for="UserRole" class="control-label"></label>
+                        <input id="UserRoleValue" asp-for="UserRole" class="form-control" disabled />
+                        <span asp-validation-for="UserRole" class="text-danger"></span>
+                    </div>
                     <table>
                         <tr><th>X</th><th>Role Name</th></tr>
                         @for (int i = 0; i < Model.Roles.Count(); i++)
@@ -45,6 +50,12 @@
 
                         }
                     </table>
+                    <script>
+                        $('input.check-box').on('change', function() {
+                            $('input.check-box').not(this).prop('checked', false);
+                            $('#UserRoleValue').val("Press 'Save' to set new role")
+                        });
+                    </script>
                 </div>
             </div>
 
