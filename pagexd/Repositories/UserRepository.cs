@@ -116,7 +116,6 @@ namespace pagexd.Repositories
         {
             var MyUser = _applicationDbContext.Users.Find(userVM.UserId);
             MyUser.UserName = userVM.UserName;
-            MyUser.Email = userVM.Email;
             MyUser.AccInfo = userVM.AccInfo;
 
             foreach (var item in _applicationDbContext.UserRoles)

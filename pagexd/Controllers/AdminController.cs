@@ -81,7 +81,7 @@ namespace pagexd.Controllers
             {
                 _userRepository.EditUser(userVM);
             }
-            return View(userVM);
+            return RedirectToAction("UsersList", "Admin");
         }
 
         public IActionResult DetailsUser(Guid id)
